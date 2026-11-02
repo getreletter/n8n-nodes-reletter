@@ -1,0 +1,21 @@
+{
+	"slug": "reletter",
+	"brand": "Reletter",
+	"entity": "newsletter",
+	"apiEntity": "publication",
+	"plural": "publications",
+	"record": {
+		"id": "example-newsletter",
+		"name": "Example Newsletter",
+		"description": null,
+		"language": "en",
+		"engagement": 0,
+		"largeFixtureField": {
+			"nested": "deliberately not simplified"
+		},
+		"url": "https://example.com/newsletter",
+		"platform": "substack",
+		"subscribers": 0,
+		"est_subscribers": null
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-reletter.reletter",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Marketing & Content"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://reletter.com/developers"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/getreletter/n8n-nodes-reletter#readme"
+			}
+		]
+	}
+}

@@ -1,0 +1,88 @@
+{
+	"name": "Reletter: research newsletters",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "manual-start",
+			"name": "Start",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [0, 0]
+		},
+		{
+			"parameters": {
+				"resource": "newsletter",
+				"operation": "getMany",
+				"query": "climate",
+				"mode": "topics",
+				"filters": "active:is:true,languages:any:en",
+				"returnAll": false,
+				"limit": 3,
+				"output": "raw"
+			},
+			"id": "search",
+			"name": "Find newsletters",
+			"type": "n8n-nodes-reletter.reletter",
+			"typeVersion": 1,
+			"position": [280, 0]
+		},
+		{
+			"parameters": {
+				"resource": "newsletter",
+				"operation": "get",
+				"publicationId": "={{$json.id}}",
+				"output": "simplified"
+			},
+			"id": "details",
+			"name": "Get newsletter details",
+			"type": "n8n-nodes-reletter.reletter",
+			"typeVersion": 1,
+			"position": [560, 0]
+		},
+		{
+			"parameters": {
+				"resource": "account",
+				"operation": "getQuota"
+			},
+			"id": "quota",
+			"name": "Check API quota",
+			"type": "n8n-nodes-reletter.reletter",
+			"typeVersion": 1,
+			"position": [280, 240]
+		}
+	],
+	"connections": {
+		"Start": {
+			"main": [
+				[
+					{
+						"node": "Find newsletters",
+						"type": "main",
+						"index": 0
+					},
+					{
+						"node": "Check API quota",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Find newsletters": {
+			"main": [
+				[
+					{
+						"node": "Get newsletter details",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"active": false,
+	"pinData": {}
+}
