@@ -1,5 +1,6 @@
 import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
 import { formatOutput } from './output';
+import { applySearchFilters } from './search';
 
 export class Reletter implements INodeType {
 	description: INodeTypeDescription = {
@@ -7,7 +8,7 @@ export class Reletter implements INodeType {
 		name: 'reletter',
 		icon: { light: 'file:../../icons/reletter.svg', dark: 'file:../../icons/reletter.dark.svg' },
 		group: ['input'],
-		version: 1,
+		version: [1, 1.1],
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Search newsletters and retrieve Reletter data',
 		defaults: { name: 'Reletter' },
@@ -82,7 +83,6 @@ export class Reletter implements INodeType {
 								url: '/api/search/publications/',
 								qs: {
 									query: '={{$parameter.query || undefined}}',
-									filters: '={{$parameter.filters || undefined}}',
 									mode: '={{$parameter.mode}}',
 									page: 1,
 									per_page: '={{$parameter.returnAll ? 100 : Math.min(100, $parameter.limit)}}',
@@ -196,10 +196,36 @@ export class Reletter implements INodeType {
 					'Comma-separated Reletter search filters. See https://reletter.com/developers/search-filters.',
 				displayOptions: {
 					show: {
+						'@version': [1],
 						resource: ['newsletter'],
 						operation: ['getMany'],
 					},
 				},
+			},
+			{
+				displayName: 'Options',
+				name: 'options',
+				type: 'collection',
+				placeholder: 'Add Option',
+				default: {},
+				displayOptions: {
+					show: {
+						'@version': [1.1],
+						resource: ['newsletter'],
+						operation: ['getMany'],
+					},
+				},
+				options: [
+					{
+						displayName: 'Filters',
+						name: 'filters',
+						type: 'string',
+						default: '',
+						placeholder: 'e.g. active:is:true,languages:any:en',
+						description:
+							'Comma-separated Reletter search filters. See https://reletter.com/developers/search-filters.',
+					},
+				],
 			},
 			{
 				displayName: 'Return All',
@@ -216,6 +242,7 @@ export class Reletter implements INodeType {
 				routing: {
 					send: {
 						paginate: true,
+						preSend: [applySearchFilters],
 					},
 					operations: {
 						pagination: {
@@ -223,8 +250,8 @@ export class Reletter implements INodeType {
 							properties: {
 								request: {
 									qs: {
+										filters: '={{$request.qs.filters}}',
 										query: '={{$parameter.query || undefined}}',
-										filters: '={{$parameter.filters || undefined}}',
 										mode: '={{$parameter.mode}}',
 										page: '={{$response.body?.page ? $response.body.page + 1 : 1}}',
 										per_page: '={{$parameter.returnAll ? 100 : Math.min(100, $parameter.limit)}}',

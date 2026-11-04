@@ -4,7 +4,7 @@
 
 - Integration name: Reletter
 - npm package: n8n-nodes-reletter
-- Version: 0.1.0
+- Version: 0.1.1
 - Website: https://reletter.com
 - Source repository: https://github.com/getreletter/n8n-nodes-reletter
 - Documentation: https://github.com/getreletter/n8n-nodes-reletter#readme
