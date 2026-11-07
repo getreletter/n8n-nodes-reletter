@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-reletter",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Reletter nodes for n8n: search newsletters, get newsletter details, and check API quota",
 	"license": "MIT",
 	"homepage": "https://reletter.com",
